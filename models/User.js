@@ -25,4 +25,4 @@ const userSchema = new Schema(
   }
 );
 
-module.exports = assignmentSchema;
+module.exports = userSchema;
