@@ -38,4 +38,20 @@ module.exports = {
         res.status(500).json(err);
       });
   },
+  //   UPDATE User
+  putUser(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $set: req.body },
+      { runValidators: true, context: 'query' }
+    )
+      .then((user) =>
+        !user
+          ? res
+              .status(404)
+              .json({ message: "User ID doesn't exist or is invalid." })
+          : res.status(200).json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
 };
