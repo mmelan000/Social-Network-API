@@ -29,4 +29,13 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
+  //   ADD user
+  postUser(req, res) {
+    User.create(req.body)
+      .then((user) => res.status(200).json(user))
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
 };
