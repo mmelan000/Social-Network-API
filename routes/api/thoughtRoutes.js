@@ -21,9 +21,9 @@ router
   .delete(deleteThought);
 
 // /api/thoughts/:thoughtId/reaction POST
-router.route('/:thoughtId/reaction').post(postReaction);
+router.route('/:thoughtId/reactions').post(postReaction);
 
 // /api/thoughts/:thoughtId/reaction/:reactionID DELETE
-router.route('/:thoughtId/reaction/:reactionId').delete(deleteReaction);
+router.route('/:thoughtId/reactions/:reactionId').delete(deleteReaction);
 
 module.exports = router;

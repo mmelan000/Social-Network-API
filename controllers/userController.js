@@ -3,7 +3,7 @@ const { User, Thought } = require('../models');
 module.exports = {
   // ALL users
   getUsers(req, res) {
-    User.find()
+    User.find({}, '-id')
       .then((users) => {
         res.status(200).json(users);
       })
@@ -18,7 +18,7 @@ module.exports = {
       .populate({
         path: 'thoughts',
         path: 'friends',
-        select: '-__v',
+        // select: '-__v',
       })
       .then((user) =>
         !user
