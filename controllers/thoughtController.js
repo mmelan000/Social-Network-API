@@ -37,8 +37,7 @@ module.exports = {
       .then((thought) => {
         return User.findOneAndUpdate(
           { _id: req.body.userId },
-          { $addToSet: { thoughts: thought._id } },
-          { new: true }
+          { $addToSet: { thoughts: thought._id } }
         );
       })
       .then((user) =>
@@ -59,7 +58,7 @@ module.exports = {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $set: req.body },
-      { runValidators: true, context: 'query' }
+      { runValidators: true, context: 'query', new: true }
     )
       .then((thought) =>
         !thought
@@ -81,7 +80,9 @@ module.exports = {
           ? res
               .status(404)
               .json({ message: "Thought ID doesn't exist or is invalid." })
-          : res.status(200).json(thought)
+          : res.status(200).json({
+              message: `Succesfully deleted Thought ${req.params.userId}.`,
+            })
       )
       .catch((err) => {
         console.log(err);
@@ -117,7 +118,9 @@ module.exports = {
           ? res
               .status(404)
               .json({ message: "Thought ID doesn't exist or is invalid." })
-          : res.status(200).json(thought)
+          : res.status(200).json({
+              message: `Succesfully deleted Reaction ${req.params.userId}.`,
+            })
       )
       .catch((err) => {
         console.log(err);

@@ -15,11 +15,7 @@ module.exports = {
   //   SINGLE user
   getUser(req, res) {
     User.findOne({ _id: req.params.userId })
-      .populate({
-        path: 'thoughts',
-        path: 'friends',
-        // select: '-__v',
-      })
+      .populate([{ path: 'thoughts' }, { path: 'friends' }])
       .then((user) =>
         !user
           ? res
@@ -43,7 +39,7 @@ module.exports = {
     User.findOneAndUpdate(
       { _id: req.params.userId },
       { $set: req.body },
-      { runValidators: true, context: 'query' }
+      { runValidators: true, context: 'query', new: true }
     )
       .then((user) =>
         !user
@@ -66,7 +62,7 @@ module.exports = {
       )
       .then(() =>
         res.json({
-          message: `Succesfully deleted user and associated thoughts.`,
+          message: `Succesfully deleted User ${req.params.userId} and associated thoughts.`,
         })
       )
       .catch((err) => res.status(500).json(err));
@@ -75,7 +71,8 @@ module.exports = {
   postFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $addToSet: { friends: req.params.friendId } }
+      { $addToSet: { friends: req.params.friendId } },
+      { new: true }
     )
       .then((user) =>
         !user
@@ -90,7 +87,8 @@ module.exports = {
   deleteFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $pull: { friends: req.params.friendId } }
+      { $pull: { friends: req.params.friendId } },
+      { new: true }
     )
       .then((user) =>
         !user
