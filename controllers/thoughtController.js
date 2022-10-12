@@ -26,6 +26,51 @@ module.exports = {
               .json({ message: "Thought ID doesn't exist or is invalid." })
           : res.status(200).json(thought)
       )
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+  // ADD thought
+  postThought(req, res) {
+    Thought.create(req.body)
+      .then((thought) => res.status(200).json(thought))
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+  // UPDATE thought
+  putThought(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $set: req.body },
+      { runValidators: true, context: 'query' }
+    )
+      .then((thought) =>
+        !thought
+          ? res
+              .status(404)
+              .json({ message: "Thought ID doesn't exist or is invalid." })
+          : res.status(200).json(thought)
+      )
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+  deleteThought(req, res) {
+    Thought.findByIdAndDelete({ _id: req.params.thoughtId }, {})
+      .then((thought) =>
+        !thought
+          ? res
+              .status(404)
+              .json({ message: "Thought ID doesn't exist or is invalid." })
+          : res.status(200).json(thought)
+      )
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
   },
 };
