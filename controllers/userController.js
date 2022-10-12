@@ -71,4 +71,34 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
+  // ADD friend
+  postFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.params.friendId } }
+    )
+      .then((user) =>
+        !user
+          ? res
+              .status(404)
+              .json({ message: "User ID doesn't exist or is invalid." })
+          : res.status(200).json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+  // REMOVE friend
+  deleteFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { friends: req.params.friendId } }
+    )
+      .then((user) =>
+        !user
+          ? res
+              .status(404)
+              .json({ message: "User ID doesn't exist or is invalid." })
+          : res.status(200).json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
 };
