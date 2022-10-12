@@ -5,7 +5,10 @@ const thoughtSchema = new Schema(
   {
     thoughtText: {
       type: String,
-      required: true,
+      required: [
+        true,
+        'You must provied a message between 1 - 280 characters.',
+      ],
       maxlength: 280,
       minlength: 1,
     },
@@ -21,7 +24,7 @@ const thoughtSchema = new Schema(
     },
     username: {
       type: String,
-      required: true,
+      required: [true, 'You must provide a username.'],
     },
     reactions: [reactionSchema],
   },

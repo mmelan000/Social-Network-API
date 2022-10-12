@@ -8,12 +8,15 @@ const reactionSchema = new Schema(
     },
     reactionBody: {
       type: String,
-      required: true,
+      required: [
+        true,
+        'You must provied a message with a maximum of 280 characters.',
+      ],
       maxlength: 280,
     },
     username: {
       type: String,
-      required: true,
+      required: [true, 'You must provide a username.'],
     },
     createdAt: {
       type: Date,

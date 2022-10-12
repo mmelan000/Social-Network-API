@@ -5,14 +5,14 @@ const userSchema = new Schema(
     username: {
       type: String,
       unique: true,
-      required: true,
+      required: [true, 'You must provide a username.'],
       trim: true,
     },
     email: {
       type: String,
       required: true,
       unique: true,
-      validate: [validateEmail, 'Please fill a valid email address'],
+      validate: [validateEmail, 'Please provide a valid email address'],
     },
     thoughts: [
       {
