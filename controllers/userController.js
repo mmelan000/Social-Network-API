@@ -12,4 +12,21 @@ module.exports = {
         return res.status(500).json(err);
       });
   },
+  //   SINGLE user
+  getSingleUser(req, res) {
+    User.findOne({ _id: req.params.userId })
+      .populate({
+        path: 'thoughts',
+        path: 'friends',
+        select: '-__v',
+      })
+      .then((user) =>
+        !user
+          ? res
+              .status(404)
+              .json({ message: "User ID doesn't exist or is invalid." })
+          : res.status(200).json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
 };
