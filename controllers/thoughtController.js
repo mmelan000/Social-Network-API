@@ -1,4 +1,4 @@
-const { User, Thought, reactionSchema } = require('../models');
+const { User, Thought } = require('../models');
 
 module.exports = {
   // ALL thoughts
@@ -34,7 +34,21 @@ module.exports = {
   // ADD thought
   postThought(req, res) {
     Thought.create(req.body)
-      .then((thought) => res.status(200).json(thought))
+      .then((thought) => {
+        return User.findOneAndUpdate(
+          { _id: req.body.userId },
+          { $addToSet: { thoughts: thought._id } },
+          { new: true }
+        );
+      })
+      .then((user) =>
+        !user
+          ? res.status(404).json({
+              message:
+                "Thought created, but User ID doesn't exist or is invalid.",
+            })
+          : res.status(200).json(user)
+      )
       .catch((err) => {
         console.log(err);
         res.status(500).json(err);
@@ -59,8 +73,45 @@ module.exports = {
         res.status(500).json(err);
       });
   },
+  // DELETE thought
   deleteThought(req, res) {
     Thought.findByIdAndDelete({ _id: req.params.thoughtId }, {})
+      .then((thought) =>
+        !thought
+          ? res
+              .status(404)
+              .json({ message: "Thought ID doesn't exist or is invalid." })
+          : res.status(200).json(thought)
+      )
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+  // ADD reaction TO thought
+  addReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $addToSet: { reactions: req.body } }
+    )
+      .then((thought) =>
+        !thought
+          ? res
+              .status(404)
+              .json({ message: "Thought ID doesn't exist or is invalid." })
+          : res.status(200).json(thought)
+      )
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+  // DELETE reaction FROM thought
+  removeReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: { _id: req.params.reactionId } } }
+    )
       .then((thought) =>
         !thought
           ? res
