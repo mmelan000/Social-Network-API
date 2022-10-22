@@ -53,7 +53,6 @@ connection.once('open', async () => {
       { $addToSet: { friends: userIds.random() } }
     );
   }
-  // add thoughts to their proper users
   for (let i = 0; i < thoughtSeed.length; i++) {
     await User.findOneAndUpdate(
       { username: thoughtSeed[i].username },
@@ -61,6 +60,7 @@ connection.once('open', async () => {
     );
   }
 
+  // add thoughts to their proper users
   for (let i = 0; i < reactionSeed.length; i++) {
     await Thought.findOneAndUpdate(
       { _id: thoughtIds.random() },

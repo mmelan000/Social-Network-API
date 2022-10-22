@@ -49,13 +49,13 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 
 **[Tutorial Video](tbd)**
 
-![App Screenshot](./public/images/SS1.gif)
+![App Screenshot](./assets/images/SS1.gif)
 
-![App Screenshot](./public/images/SS2.gif)
+![App Screenshot](./assets/images/SS2.gif)
 
-![App Screenshot](./public/images/SS3.gif)
+![App Screenshot](./assets/images/SS3.gif)
 
-![App Screenshot](./public/images/SS4.gif)
+![App Screenshot](./assets/images/SS4.gif)
 
 ## Contributing
 
